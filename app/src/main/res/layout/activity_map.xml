@@ -23,7 +23,13 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            app:srcCompat="@drawable/turnon" />
+            app:srcCompat="@drawable/iconcamera" />
+
+        <Button
+            android:id="@+id/btClearRoad"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:text="X" />
 
         <TextView
             android:id="@+id/tvCoords"

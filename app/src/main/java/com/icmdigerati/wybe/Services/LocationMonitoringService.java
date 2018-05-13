@@ -72,8 +72,8 @@ import com.icmdigerati.wybe.Settings.Constants;
 
             mLocationRequest.setInterval(Constants.LOCATION_INTERVAL);
             mLocationRequest.setFastestInterval(Constants.FASTEST_LOCATION_INTERVAL);
-
-            int priority = LocationRequest.PRIORITY_HIGH_ACCURACY; //by default
+            mLocationRequest.setSmallestDisplacement(Constants.SMALLEST_DISPLACEMENT);
+            int priority = LocationRequest.PRIORITY_HIGH_ACCURACY; //by default HIGH_POWER
             //PRIORITY_BALANCED_POWER_ACCURACY, PRIORITY_LOW_POWER, PRIORITY_NO_POWER are the other priority modes
 
             mLocationRequest.setPriority(priority);
@@ -95,17 +95,6 @@ import com.icmdigerati.wybe.Settings.Constants;
         @Override
         public void onConnected(Bundle dataBundle) {
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                // TODO: Consider calling
-                //    ActivityCompat#requestPermissions
-                // here to request the missing permissions, and then overriding
-                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                //                                          int[] grantResults)
-                // to handle the case where the user grants the permission. See the documentation
-                // for ActivityCompat#requestPermissions for more details.
-
-                Log.d(TAG, "== Error On onConnected() Permission not granted");
-                //Permission not granted by user so cancel the further execution.
-
                 return;
             }
             LocationServices.FusedLocationApi.requestLocationUpdates(mLocationClient, mLocationRequest, this);
