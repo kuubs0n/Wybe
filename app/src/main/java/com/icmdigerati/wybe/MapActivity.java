@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.location.Location;
 import android.net.ConnectivityManager;
@@ -377,7 +378,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             try{
                 photoFile = createImageFile();
             } catch (IOException e) {
-
+                Toast.makeText(getApplicationContext(), "Cannot create imageFile" + e.getMessage(), Toast.LENGTH_LONG).show();
             }
             if(photoFile != null) {
                 Uri photoUri = FileProvider.getUriForFile(this, "com.example.android.fileprovider", photoFile);
@@ -408,13 +409,15 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            Bundle extras = data.getExtras();
-            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            File image = new File(mCurrentPhotoPath);
+            BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+            Bitmap bitmap = BitmapFactory.decodeFile(image.getAbsolutePath(),bmOptions);
             LatLng position = new LatLng(0,0);
             if(mPolylinePoints.size() > 0)
                 position = mPolylinePoints.get(mPolylinePoints.size() - 1);
 
-            new UploadBitmapAndMetadata(this, imageBitmap, new PhotoMetadata(position, UUID.randomUUID())).execute();
+            Toast.makeText(getApplicationContext(), bitmap.getHeight() + bitmap.getWidth(), Toast.LENGTH_LONG).show();
+            new UploadBitmapAndMetadata(this, bitmap, new PhotoMetadata(position, UUID.randomUUID())).execute();
         }
     }
 
